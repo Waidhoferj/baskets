@@ -6,8 +6,6 @@ from copy import deepcopy
 
 class BasketEnv(Env):
 
-    metadata = {"render_modes": ["human", "rgb_array"], "render_fps": 4}
-
     def __init__(self, 
         n_agents:int, 
         n_collectables:int, 
