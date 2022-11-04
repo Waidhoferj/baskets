@@ -1,0 +1,11 @@
+name: baskets
+channels:
+  - anaconda
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pytorch
+  - torchaudio
+  - torchvision
+  - gym
+prefix: /opt/homebrew/Caskroom/miniforge/base/envs/baskets
