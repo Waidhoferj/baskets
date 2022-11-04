@@ -1,6 +1,7 @@
 # Baskets
 
 ![Honeycomb Havoc](./assets/Wario_Chased_Away.webp)
+
 An environment based on the Honeycomb Havoc game from Mario party.
 
 ## Getting Started
