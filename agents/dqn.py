@@ -24,7 +24,7 @@ class DqnAgent():
             nn.Linear(64, self.num_actions)
         )
         self.network = network.to(device)
-        self.memory = ReplayBuffer(state_size)
+        self.memory = ReplayBuffer()
         self.optimizer = torch.optim.Adam(self.network.parameters(), lr=1e-4)
 
     def __repr__(self):
@@ -69,9 +69,7 @@ class DqnAgent():
 
 
 class ReplayBuffer:
-    def __init__(self, state_size: int, seed=42):
-        self.state_size = state_size
-        self.reward_scaler = 1.0 / float(self.state_size *2)
+    def __init__(self, seed=42):
         self.rand = np.random.RandomState(seed)
         self._states = []
         self._actions = np.array([])
@@ -86,11 +84,12 @@ class ReplayBuffer:
     
     def append_episode(self, states, actions,rewards, gamma=0.99):
         y_next = 0
+        reward_scaler =  1.0 / float(len(states) *2)
         utilities = []
         for reward in reversed(rewards):
             y = reward + gamma * y_next
             y_next = y
-            utilities.append(float(y) * self.reward_scaler)
+            utilities.append(float(y) * reward_scaler)
         utilities = utilities[::-1]
         self._utilities = np.concatenate([self._utilities, utilities])
         self._states = np.concatenate([self._states, states]) if len(self._states) != 0 else np.array(states)
@@ -110,9 +109,11 @@ class StateEmbedding:
 
     def __call__(self, state:dict) -> np.ndarray:
         collectables = np.array(state["collectables"]) == 1.0
+        end = min(self.state_size, len(collectables))
+        collectables = collectables[:end]
         fruit = np.zeros((self.state_size,))
         bees = np.zeros((self.state_size,))
-        fruit[:len(collectables)] = collectables
-        bees[:len(collectables)] = np.invert(collectables)
+        fruit[:end] = collectables
+        bees[:end] = np.invert(collectables)
         vector = np.concatenate([fruit, bees])
         return vector

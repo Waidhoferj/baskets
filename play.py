@@ -30,13 +30,15 @@ def display_game(state:dict, player_id:int):
 
 def play(n_collectables=20):
     ts_agent = TreeSearchAgent()
-    dqn = DqnAgent(1000, 3, seed=randint(0,1024))
-    rand = RandomAgent(seed=randint(0,1024))
-    dqn.load_weights("dqn.pth")
+
+    dqn = DqnAgent(10, 3, seed=randint(0,1024))
+    dqn.load_weights("weights/dqn.pth")
+    dqn2 = DqnAgent(10, 3, seed=randint(0,1024))
+    dqn2.load_weights("weights/dqn.pth")
     id_to_agent = [
         ts_agent,
         dqn,
-        rand
+        dqn2
     ]
     player_id = len(id_to_agent)
     env = gym.make("BasketEnv-v0", n_agents=len(id_to_agent) + 1, n_collectables=n_collectables)

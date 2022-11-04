@@ -13,7 +13,7 @@ def train(n_agents=4, n_turns=10, seed=42):
     state, _ = env.reset(seed=0)
     n_actions = env.action_space.n
     loss = None
-    input_size = 1000
+    input_size = 10
     agent = DqnAgent(input_size, n_actions)
     epsilon_decay = 1e-2
     progress = tqdm(range(episodes))
@@ -32,7 +32,7 @@ def train(n_agents=4, n_turns=10, seed=42):
             actions.append(action)
         loss = agent.fit(states,actions,rewards)
         progress.set_description(f"Loss: {loss}", refresh=True)
-    torch.save(agent.network.state_dict(), "dqn.pth")
+    torch.save(agent.network.state_dict(), "weights/dqn.pth")
     
 
 

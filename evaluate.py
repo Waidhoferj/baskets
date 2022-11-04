@@ -19,7 +19,7 @@ def train_agents():
     rand_agent = RandomAgent(seed=seed)
     ts_agent = TreeSearchAgent()
     dqn = DqnAgent(1000, 3, seed=seed)
-    dqn.load_weights("dqn.pth")
+    dqn.load_weights("weights/dqn.pth")
 
     
     id_to_agent = [
